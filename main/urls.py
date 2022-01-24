@@ -8,14 +8,10 @@
 
 from django.urls import path, include
 from .views import Comunidade_List_New, ComunidadesQueParticipo, MinhasComunidades, SolicitarAcolhimento, AcolherSolicitacao
-
-#from .views import UltimasComunidadesViewSet
-#from rest_framework import routers
-#router = routers.DefaultRouter()
-#router.register('comunidade',UltimasComunidadesViewSet)
+from .views import Comunidade_Crud
 
 urlpatterns = [
-#   path('',include(router.urls)),
+    path('comunidade/<int:comunidade_id>',Comunidade_Crud.as_view()), 
     path('comunidade/',Comunidade_List_New.as_view()), 
     path('comunidade/minhas',MinhasComunidades.as_view()),
     path('membro/<int:comunidade_id>/solicitar/',SolicitarAcolhimento.as_view()),

@@ -23,11 +23,26 @@ from rest_framework.views import APIView
 #                                             Comunidade
 ##------------------------------------------------------
 
-##from rest_framework import viewsets
-##class UltimasComunidadesViewSet(viewsets.ModelViewSet):
-##    queryset = Comunidade.objects.filter(eh_visivel=True, eh_publica=True).order_by('-data_publicacao') [:20]
-##    serializer_class = ComunidadeSerializer
-   
+class Comunidade_Crud(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def put(self, request, comunidade_id):
+
+#   Altera dados de uma comunidade.     
+
+        comunidade = Comunidade.objects.get(pk=comunidade_id)
+        if not comunidade:
+            return Response(data={'Erro':'Comunidade informada não existe.'},status=status.HTTP_404_NOT_FOUND)            
+        if (request.user.usuario != comunidade.proprietario):
+            return Response(data={'Erro':'Usuário autenticado NÃO é admistrador da comunidade informada.'},status=status.HTTP_400_BAD_REQUEST)
+
+        comunidade.denominacao = request.denominacao
+        comunidade.descricao = request.descricao
+        comunidade.eh_publica = request.eh_publica
+        comunidade.eh_visivel = request.eh_visivel
+        return Response(data={'Sucesso':'Os dados da comunidade foram alterados.'},status=status.HTTP_200_OK)
+
 class Comunidade_List_New(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
@@ -133,10 +148,3 @@ class ComunidadesQueParticipo(APIView):
             serializer = UltimasComunidadesSerializer(comunidades, many=True)
             return Response(serializer.data)        
         return Response(status=status.HTTP_404_NOT_FOUND)
-
-"""
-SolicitarAcolhimento:  comunidade/membro/<int:comunidade_id>/solicitar/          
-AcolherSolicitacao:    comunidade/membro/<int:pk>/acolher/
-RecusarSolicitacao:    comunidade/membro/recusar/pk
-CancelarSolicitacao:   comunidade/membro/cancelar/pk
-"""
