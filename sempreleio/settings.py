@@ -25,7 +25,7 @@ SECRET_KEY = '%0urv)auakjr$5ojz0j^j5@*+*%e1$(f_x7lzf)onnmuy8+rrn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-##      'rest_framework.authentication.SessionAuthentication',
+      'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
@@ -68,15 +68,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-## Vpl:
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-## Vpl:
+# Sales: 3-1-22
+CORS_ALLOW_ALL_ORIGINS = True
+
+'''
+# Vpl:
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://localhost:8000',
 )
+'''
 
 ROOT_URLCONF = 'sempreleio.urls'
 
