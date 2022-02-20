@@ -29,3 +29,6 @@ curl -X GET "http://sempreleio.centralus.cloudapp.azure.com:8000/membro/17/acolh
 ## Vicente novamente lista as comunidades que eh membro
 ## e verifica que a comunidade #7 "Loren Ipsum" estah presente
 curl -X GET "http://sempreleio.centralus.cloudapp.azure.com:8000/comunidade/queparticipo" -H  "accept: application/json" -H  "Authorization: Token eb23f83ba740b8b4e1cb5d246ae945da4bfc744d"
+
+## Vicente tenta criar um topico na comunidade #7 "Loren Ipsum"
+curl -X POST "http://127.0.0.1:8000/topico/criar" -H "Content-Type: application/json" -H "Authorization: Token 60bd8bbb382f7353a7ddc27af55890eb78bef02e" -d '{"titulo":"Lorem ipsum dolor sit amet, consectetur teste teste teste teste" , "data_publicacao":"2022-02-10" , "comunidade":"7"}'

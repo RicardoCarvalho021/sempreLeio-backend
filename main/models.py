@@ -131,10 +131,17 @@ class Comunidade(models.Model):
     def eh_nova(self):
         return self.data_publicacao+timedelta(days=30) >= timezone.now().date()
 
+    def eh_proprietario(self, usuario):
+        return usuario == self.proprietario
+
+    def eh_membro(self, usuario):
+        return self.membros.filter(usuario).exists()
+
 class Topico(models.Model):
     titulo = models.CharField(max_length = 100)
     data_publicacao  = models.DateField()
     comunidade = models.ForeignKey(Comunidade, on_delete=models.CASCADE)
+##  teste = models.CharField(max_length=30, blank=True)
 
     def __str__(self):
         return self.titulo
@@ -198,4 +205,3 @@ class UsuarioPostagem(models.Model):
 
     def __str__(self):
         return 'UsuarioPostagem'
-
