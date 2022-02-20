@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main',
     'comunidade',
     'postagem',
+    'topico',
     
     'drf_yasg',
     'rest_framework',
