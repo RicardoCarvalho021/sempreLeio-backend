@@ -6,7 +6,8 @@
 ##----------------------------------------------------------
 
 from rest_framework import serializers
-from main.models import Comunidade, Usuario, UsuarioComunidade
+from main.models import Comunidade, Usuario, UsuarioComunidade, Topico
+from postagem.serializers import PostagemSerializer
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,3 +44,8 @@ class MinhasComunidadesSerializer(serializers.ModelSerializer):
         model = Comunidade
         fields = ['pk','denominacao','descricao','data_publicacao','eh_nova','membros','pedidos_pendentes']
 
+class TopicosDaComunidadeSerializer(serializers.ModelSerializer):
+    postagens = PostagemSerializer(many=True, read_only=True)
+    class Meta:
+        model = Topico
+        fields = ['pk','titulo','data_publicacao','postagens']

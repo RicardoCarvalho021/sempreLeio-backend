@@ -12,7 +12,7 @@ from datetime import datetime
 from rest_framework import status 
 from rest_framework.response import Response
 from .models import Comunidade, Topico, Postagem, Usuario
-from .serializers import ComunidadeSerializer, TopicoSerializer, PostagemSerializer
+from .serializers_old import ComunidadeSerializer, TopicoSerializer, PostagemSerializer
 from django.conf.urls import url
 
 from rest_framework.decorators import api_view, permission_classes

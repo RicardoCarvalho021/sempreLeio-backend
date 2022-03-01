@@ -55,3 +55,5 @@ class PostagemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Postagem
         fields = ['id','texto','topico','signatario']
+
+

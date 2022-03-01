@@ -1,0 +1,28 @@
+version: '3'
+services:
+  api:
+    ports:
+      - '8000:8000'
+    image: vicentelimeira/sempreleio_backend:latest
+    container_name: api
+    command: ./run.sh
+    restart: always
+    tty: true
+    working_dir: /srv/app
+#    depends_on:
+#      - med5_back_db
+    volumes:
+      - static-content:/srv/app/static
+      - media-content:/srv/app/media
+    networks:
+      - my_network
+
+
+#Docker Networks
+networks:
+  my_network:
+    driver: bridge
+#Volumes
+volumes:
+  static-content:
+  media-content:

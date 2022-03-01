@@ -1,0 +1,20 @@
+docker build -t sempreleio .
+docker run -it --entrypoint /bin/bash --publish 8000:8000 sempreleio
+
+docker build -t vicentelimeira/sempreleio_backend:latest .
+docker run -it --entrypoint /bin/bash --publish 0.0.0.0:8000:8000 vicentelimeira/sempreleio_backend
+[sudo] docker-compose up --build --remove-orphans
+
+docker volume ls
+docker system prune
+docker volume prune
+docker volume rm sempreleio-backend_postgres_data
+
+python manage.py makemigrations main --empty
+docker exec -it sempreleio-backend-sempreleio_db-1 bash
+
+ssh -i c:\ifrn_key.pem vicente@sempreleio.centralus.cloudapp.azure.com
+## carregar docker-compose e .env
+## todos os comandos docker devemos ser precedidos de "sudo"
+## parar os conteiners e destruir os volumes
+## rodar o docker-compose

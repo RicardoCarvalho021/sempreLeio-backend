@@ -18,8 +18,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from main.models import Comunidade, Topico, UsuarioComunidade
-from comunidade.serializers import MinhasComunidadesSerializer, UltimasComunidadesSerializer, ComunidadeSerializer, UsuarioComunidadeSerializer
+from main.models import Comunidade, Postagem, Topico, UsuarioComunidade
+from comunidade.serializers import MinhasComunidadesSerializer, UltimasComunidadesSerializer, ComunidadeSerializer, UsuarioComunidadeSerializer, TopicosDaComunidadeSerializer
 from topico.serializers import TopicoSerializer
 
 #-----------------------------
@@ -74,10 +74,10 @@ class MinhasComunidades(APIView):
     #   em ordem decrescente de data.
 
         comunidades = Comunidade.objects.filter(proprietario=request.user.usuario).order_by('-data_publicacao') [:20]
-        if comunidades:
+        if comunidades.count() > 0:
             serializer = MinhasComunidadesSerializer(comunidades, many=True)
             return Response(serializer.data)        
-        return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
+        return Response(data={'Erro':'Não existem comunidades para o usuário.'},status=status.HTTP_404_NOT_FOUND)
 
 #-----------------------------
 class Comunidade_Get(APIView):
@@ -123,7 +123,7 @@ class Comunidade_Topicos(APIView):
 
     #   Retorna lista de topicos para a comunidade informada.
         topicos = Topico.objects.filter(comunidade_id=comunidade_id).order_by('-data_publicacao') [:20]
-        if topicos:
+        if topicos.count() > 0:
             serializer = TopicoSerializer(topicos, many=True)
             return Response(serializer.data,status=status.HTTP_200_OK)        
         return Response(data={'Erro':'Não existem tópicos para a comunidade informada.'},status=status.HTTP_404_NOT_FOUND)

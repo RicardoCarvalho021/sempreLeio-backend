@@ -9,30 +9,28 @@ services:
     restart: always
     tty: true
     working_dir: /srv/app
-    environment:
-      - POSTGRES_NAME=dbSempreLeio
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=teste@123  
+    env_file:
+      - ./.env 
     depends_on:
-      - sempreleio_db
+      - db_server
     volumes:
       - static-content:/srv/app/static
       - media-content:/srv/app/media
     networks:
       - sempreleio_net
 
-  sempreleio_db:
+  db_server:
     image: postgres:13
+    container_name: db
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=teste@123
+      - db_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env 
     networks:
       - sempreleio_net      
 
 volumes:
-  postgres_data:
+  db_data:
   static-content:
   media-content:
 

@@ -134,17 +134,21 @@ class Comunidade(models.Model):
     def eh_proprietario(self, usuario):
         return usuario == self.proprietario
 
-    def eh_membro(self, usuario):
-        return self.membros.filter(usuario).exists()
+    def eh_membro(self, user):
+        existe = self.usuariocomunidade_set.filter(situacao=1).filter(usuario=user).exists()
+        return existe
 
 class Topico(models.Model):
     titulo = models.CharField(max_length = 100)
     data_publicacao  = models.DateField()
     comunidade = models.ForeignKey(Comunidade, on_delete=models.CASCADE)
-##  teste = models.CharField(max_length=30, blank=True)
 
     def __str__(self):
         return self.titulo
+
+    def postagens(self):
+        return Postagem.objects.filter(topico=self).order_by('-data_publicacao') [:20]
+
 
 class Postagem(models.Model):
     texto = models.TextField(null=True, blank=True, verbose_name="Texto da postagem")
@@ -159,7 +163,11 @@ class Postagem(models.Model):
         result = up['conceito__avg']
         if not result:
             return 0
-        return result 
+        return result
+
+    def avaliacoes(self):
+        avaliacoes = UsuarioPostagem.objects.filter(postagem=self).count()
+        return avaliacoes
 
     def __str__(self):
         return self.texto

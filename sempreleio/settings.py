@@ -42,22 +42,23 @@ INSTALLED_APPS = [
     'comunidade',
     'postagem',
     'topico',
+    'usuario',
     
     'drf_yasg',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth', 
+##    'rest_auth', 
     'corsheaders', 
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-      'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-]    
+##    'DEFAULT_PERMISSION_CLASSES': [
+##        'rest_framework.permissions.IsAuthenticated',
+##]    
 }
 
 REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }
@@ -109,7 +110,7 @@ WSGI_APPLICATION = 'sempreleio.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
@@ -121,13 +122,13 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     },
-    'docker': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('POSTGRES_NAME'),
+        'NAME': os.environ.get('POSTGRES_DB'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': 'sempreleio_db',
-        'PORT': '5432',
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }       
 }
 

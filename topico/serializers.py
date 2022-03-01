@@ -7,8 +7,10 @@
 
 from rest_framework import serializers
 from main.models import Topico
+from postagem.serializers import PostagemSerializer
 
 class TopicoSerializer(serializers.ModelSerializer):
+    postagens = PostagemSerializer(many=True, read_only=True)
     class Meta:
         model = Topico
         fields = '__all__'
