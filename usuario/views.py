@@ -13,6 +13,8 @@ from main.models import Usuario, Cidade
 from datetime import datetime
 from django.db import transaction
 
+from rest_framework.generics import RetrieveUpdateAPIView
+
 # Create your views here.
 class Usuario_SignUp(APIView):
     #permission_classes = [IsAuthenticated]
@@ -46,3 +48,20 @@ class Usuario_SignUp(APIView):
             except:
                Response(serializer.data, status=status.HTTP_400_BAD_REQUEST) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+## Iury (8-3-2022)
+class UserDetailsView(RetrieveUpdateAPIView):
+    """
+    Reads and updates UserModel fields
+    Accepts GET, PUT, PATCH methods.
+    Default accepted fields: username, first_name, last_name
+    Default display fields: pk, username, email, first_name, last_name
+    Read-only fields: pk, email
+    Returns UserModel fields.
+    """
+    serializer_class = UserSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def get_object(self):
+        return self.request.user

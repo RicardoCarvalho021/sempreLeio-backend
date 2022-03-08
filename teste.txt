@@ -32,3 +32,12 @@ curl -X GET "http://sempreleio.centralus.cloudapp.azure.com:8000/comunidade/quep
 
 ## Vicente tenta criar um topico na comunidade #7 "Loren Ipsum"
 curl -X POST "http://127.0.0.1:8000/topico/criar" -H "Content-Type: application/json" -H "Authorization: Token 60bd8bbb382f7353a7ddc27af55890eb78bef02e" -d '{"titulo":"Lorem ipsum dolor sit amet, consectetur teste teste teste teste" , "data_publicacao":"2022-02-10" , "comunidade":"7"}'
+
+## Convidado Lista as postagens de um tópico
+curl -X POST "http://sempreleio.centralus.cloudapp.azure.com:8000/topico/1/postagens" -H "Content-Type: application/json"
+
+## Convidado consulta detalhes do tópico #1
+curl -X POST "http://127.0.0.1:8000/topico/1" -H "Content-Type: application/json"
+
+## Recuperar dados do Usuario logado.
+curl -X GET "http://127.0.0.1:8000/api/v1/rest-auth/user/" -H  "accept: application/json" -H  "Authorization: Token eb23f83ba740b8b4e1cb5d246ae945da4bfc744d"

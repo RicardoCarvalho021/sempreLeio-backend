@@ -6,7 +6,7 @@
 ##----------------------------------------------------------
 
 from django.urls import path
-from .views import Postagem_New, Postagem_Ultimas, Postagem_Visivel, Postagem_Relevante, Postagem_Interessante, Postagem_Destaque
+from .views import Postagem_New, Postagem_Ultimas, Postagem_Visivel, Postagem_Relevante, Postagem_Interessante, Postagem_Destaque, Postagem_Avalia
 
 urlpatterns = [
     path('postagem/',Postagem_New.as_view()), 
@@ -15,5 +15,5 @@ urlpatterns = [
     path('postagem/<int:postagem_id>/interessante',Postagem_Interessante.as_view()),
     path('postagem/<int:postagem_id>/relevante',Postagem_Relevante.as_view()),
     path('postagem/<int:postagem_id>/destaque',Postagem_Destaque.as_view()),
-
+    path('postagem/<int:postagem_id>/avalia/<int:conceito>',Postagem_Avalia.as_view()),
 ]

@@ -205,3 +205,43 @@ class Postagem_Interessante(APIView):
         else:
             return Response(data={'Erro':'Usuário autenticado NÃO possui permissão para alterar a postagem.'},status=status.HTTP_400_BAD_REQUEST)            
         return Response(data={'Sucesso':'A postagem foi avaliada como INTERESSANTE.'},status=status.HTTP_200_OK)        
+
+#-----------------------------
+class Postagem_Avalia(APIView):
+#----------------------------- 
+# CDU-05
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication] 
+
+    def get(self, request, postagem_id, conceito):
+
+    #   Insere/Altera avaliacao da postagem
+        autenticado = request.user.usuario
+
+        try:
+            postagem = Postagem.objects.get(pk=postagem_id)
+        except:
+            return Response(data={'Erro':'Postagem inexistente.'},status=status.HTTP_404_NOT_FOUND)                   
+
+        if postagem.signatario == autenticado:
+            return Response(data={'Erro':'Usuário signatário NÃO pode avaliar sua postagem.'},status=status.HTTP_400_BAD_REQUEST)
+
+        if request.user.is_superuser or postagem.topico.comunidade.eh_proprietario(autenticado) or postagem.topico.comunidade.eh_membro(autenticado):
+            if conceito not in [2,4,8]:
+                return Response(data={'Erro':'O conceito deve ser informado corretamente: [2=INTERESSANTE], [4=RELEVANTE], [8=DESTAQUE]'},status=status.HTTP_400_BAD_REQUEST)
+
+            up = UsuarioPostagem.objects.filter(usuario=autenticado, postagem_id=postagem_id)
+            if (not up):
+                up = UsuarioPostagem()
+                up.data_avaliacao = timezone.now()
+                up.conceito = conceito
+                up.usuario = autenticado
+                up.postagem = postagem
+                up.save()
+            else:
+                for avaliacao in up:
+                    avaliacao.conceito = conceito
+                    avaliacao.save()
+        else:
+            return Response(data={'Erro':'Usuário autenticado NÃO possui permissão para alterar a postagem.'},status=status.HTTP_400_BAD_REQUEST)            
+        return Response(data={'Sucesso':'Sua avaliação foir registrada.'},status=status.HTTP_200_OK)        

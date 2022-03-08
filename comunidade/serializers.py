@@ -20,10 +20,24 @@ class UsuarioComunidadeSerializer(serializers.ModelSerializer):
         model = UsuarioComunidade
         fields = ['pk','situacao', 'data_situacao','usuario']
 
+#### Iury (8/3/2022)
+class ProprietarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ['pk','nome']
+        
 class ComunidadeSerializer(serializers.ModelSerializer):
+    pedidos_pendentes = UsuarioComunidadeSerializer(many=True, read_only=True)
+    proprietario = ProprietarioSerializer(read_only=True)
+    membros = UsuarioComunidadeSerializer(many=True, read_only=True)
     class Meta:
         model = Comunidade
-        fields = ['pk','denominacao','descricao','data_publicacao', 'eh_publica','eh_visivel','eh_nova']
+        fields = ['pk','denominacao','descricao','data_publicacao', 'eh_publica','eh_visivel','eh_nova','pedidos_pendentes', 'proprietario', 'membros']
+###
+###class ComunidadeSerializer(serializers.ModelSerializer):
+###    class Meta:
+###        model = Comunidade
+###        fields = ['pk','denominacao','descricao','data_publicacao', 'eh_publica','eh_visivel','eh_nova']
 
 class ProprietarioSerializer(serializers.ModelSerializer):
     class Meta:
