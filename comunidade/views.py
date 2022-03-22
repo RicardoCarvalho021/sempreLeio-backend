@@ -200,7 +200,7 @@ class SolicitarAcolhimento(APIView):
         try:
             comunidade = Comunidade.objects.get(pk=comunidade_id)
         except:
-            return Response(data={'Erro':'Solicitação informada inexistente.'},status=status.HTTP_404_NOT_FOUND)    
+            return Response(data={'Erro':'Comunidade informada inexistente.'},status=status.HTTP_404_NOT_FOUND)    
 
         if (request.user.usuario == comunidade.proprietario):
             return Response(data={'Erro':'Usuário autenticado é admistrador da comunidade informada.'},status=status.HTTP_400_BAD_REQUEST)
