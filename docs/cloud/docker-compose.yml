@@ -1,0 +1,39 @@
+version: '3'
+services:
+  api:
+    ports:
+      - '8000:8000'
+    image: vicentelimeira/sempreleio_backend_postgres:latest
+    container_name: api
+    command: ./run.sh
+    restart: always
+    tty: true
+    working_dir: /srv/app
+    env_file:
+      - ./.env 
+    depends_on:
+      - db_server
+    volumes:
+      - static-content:/srv/app/static
+      - media-content:/srv/app/media
+    networks:
+      - sempreleio_net
+
+  db_server:
+    image: postgres:13
+    container_name: db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env 
+    networks:
+      - sempreleio_net      
+
+volumes:
+  db_data:
+  static-content:
+  media-content:
+
+networks:
+  sempreleio_net:
+    driver: bridge
