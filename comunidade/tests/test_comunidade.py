@@ -6,14 +6,11 @@ from django.test import TestCase
 from rest_framework.test import force_authenticate
 from rest_framework.test import APIRequestFactory
 from django.contrib.auth.models import User
-from comunidade.views import MinhasComunidades, Comunidade_Seek, SolicitarAcolhimento, AcolherSolicitacao
+from comunidade.views import MinhasComunidades, Comunidade_Seek
 
-class TesteFirstTestCase(TestCase):
+class TesteComunidadeTestCase(TestCase):
 
     appUrl = "http://127.0.0.1:8000"
-    #login_vicente = {"username": "vicente","password": "teste@123"}
-    #login_andre = json.loads('{"username": "andre","password": "teste@123"}')
-    #login_ricardo = json.loads('{"username": "ricardo","password": "teste@123"}')
     
     @classmethod
     def setUpTestData(cls):

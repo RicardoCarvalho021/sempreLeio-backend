@@ -27,27 +27,31 @@ class TesteAcolhimentoTestCase(TestCase):
         force_authenticate(request, user=usuario)
         resposta = view(request, 0)
 
-        self.assertEqual(resposta.status_code,404)  ## Comunidade informada inexistente.
+## Comunidade informada inexistente.
+        self.assertEqual(resposta.status_code,404)
 
         request = factory.get(self.appUrl + '/membro/1/solicitar/')
         force_authenticate(request, user=usuario)
         resposta = view(request, 1)
 
-        self.assertEqual(resposta.status_code,400)  ## Usuário autenticado é admistrador da comunidade informada.
+## Usuário autenticado é admistrador da comunidade informada.
+        self.assertEqual(resposta.status_code,400)
 
         usuario = User.objects.get(username='andre')
         request = factory.get(self.appUrl + '/membro/1/solicitar/')
         force_authenticate(request, user=usuario)
         resposta = view(request, 1)
 
-        self.assertEqual(resposta.status_code,404)  ## Já existe uma solicitação do usuário para a comunidade.
+## Já existe uma solicitação do usuário para a comunidade.
+        self.assertEqual(resposta.status_code,404)
 
         usuario = User.objects.get(username='vicente')
         request = factory.get(self.appUrl + '/membro/2/solicitar/')
         force_authenticate(request, user=usuario)
         resposta = view(request, 2)
 
-        self.assertEqual(resposta.status_code,201)  ## Foi solicitado seu acolhimento junto ao administrador da comunidade.
+## Foi solicitado seu acolhimento junto ao administrador da comunidade.
+        self.assertEqual(resposta.status_code,201)
 
         # CDU-27
         view = AcolherSolicitacao.as_view()
@@ -57,17 +61,20 @@ class TesteAcolhimentoTestCase(TestCase):
         force_authenticate(request, user=usuario)
         resposta = view(request, 0)
 
-        self.assertEqual(resposta.status_code,404)  ## Solicitação de acolhimento informada inexistente.
+## Solicitação de acolhimento informada inexistente.
+        self.assertEqual(resposta.status_code,404)
 
         request = factory.get(self.appUrl + '/membro/3/acolher/')
         force_authenticate(request, user=usuario)
         resposta = view(request, 3)
 
-        self.assertEqual(resposta.status_code,400)  ## Usuário autenticado NÃO é admistrador da comunidade informada.
+## Usuário autenticado NÃO é admistrador da comunidade informada.
+        self.assertEqual(resposta.status_code,400)
 
         usuario = User.objects.get(username='andre')
         request = factory.get(self.appUrl + '/membro/3/acolher/')
         force_authenticate(request, user=usuario)
         resposta = view(request, 3)
 
-        self.assertEqual(resposta.status_code,200)  ## O membro foi acolhido na comunidade.
+## O membro foi acolhido na comunidade.
+        self.assertEqual(resposta.status_code,200)
